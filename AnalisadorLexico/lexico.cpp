@@ -56,13 +56,13 @@ void printPalavra(int inicio, int fim, string palavra,int estado)
 	}
 	else cout<<saidas[k];
 
-    
-    
+
+
 
 }
 
 void printLastPalavra(int inicio, int fim ,string palavra){
-	
+
 	for(int i = inicio; i<fim ; i++){
 		cout << palavra[i];
 	}
@@ -84,24 +84,44 @@ int main()
     {
         mat[i] = (int*)calloc(sizeof(int),255+1);
     }
-    setLinha(mat,1,'0','9',6,nEstados);
-    setLinha(mat,6,'0','9',6,nEstados);
-    setLinha(mat,6,'.','.',7,nEstados);
-    setLinha(mat,7,'0','9',7,nEstados);
+
+    /*Identificador e Números*/
+    setLinha(mat,1,'0','9',8,nEstados);
+    setLinha(mat,8,'0','9',8,nEstados);
+    setLinha(mat,8,'.','.',9,nEstados);
+    setLinha(mat,9,'0','9',9,nEstados);
     setLinha(mat,1,'a','z',3,nEstados);
     setLinha(mat,1,'A','Z',3,nEstados);
     setLinha(mat,3,'a','z',3,nEstados);
     setLinha(mat,3,'A','Z',3,nEstados);
     setLinha(mat,3,'0','9',3,nEstados);
     setLinha(mat,3,'_','_',3,nEstados);
+    setLinha(mat,10,'0','9',8,nEstados);
 
+    /*Simbolos Especiais*/
     setLinha(mat,1,'.','.',2,nEstados);
     setLinha(mat,1,')',')',2,nEstados);
     setLinha(mat,1,',',',',2,nEstados);
     setLinha(mat,1,';',';',2,nEstados);
+    setLinha(mat,1,'=','=',2,nEstados);
+    setLinha(mat,1,'+','+',10,nEstados);
+    setLinha(mat,1,'-','-',10,nEstados);
     setLinha(mat,1,'>','>',2,nEstados);
+    setLinha(mat,1,'<','<',2,nEstados);
+    setLinha(mat,1,'[','[',2,nEstados);
+    setLinha(mat,1,']',']',2,nEstados);
 
-   
+    /*Simbolos Especiais Compostos*/
+    setLinha(mat,1,':',':',4,nEstados);
+    setLinha(mat,1,'(','(',5,nEstados);
+    setLinha(mat,1,'*','*',6),nEstados);
+
+    /*Simbolos Especiais Compostos*/
+    setLinha(mat,4,'=','=',7,nEstados);
+    setLinha(mat,5,'*','*',7,nEstados);
+    setLinha(mat,6,')',')',7,nEstados);
+
+
     setColuna(mat,' ',-1,nEstados);
     setColuna(mat,0,-1,nEstados);
     string palavra;
@@ -135,12 +155,12 @@ int main()
 
 					 	cout<<"ERRO2";
 					}
-                	while(i-k>0)i--;    
+                	while(i-k>0)i--;
                     k=i+1;
                     stateAtual = 1;
                     lastFinal = 0;
                     posLastFinal = i+1;
-					
+
                 }
                 else
                 {
@@ -150,7 +170,7 @@ int main()
                     printLastPalavra(k,i,palavra);
 
                     stateAtual = 1;
-                    
+
                     k = posLastFinal+1;
                     i=posLastFinal;
                     //i=posLastFinal;
