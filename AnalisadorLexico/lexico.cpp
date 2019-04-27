@@ -27,7 +27,7 @@ void setLinha(int **mat, int linha,int inicio,int fim,int valor,int nEstados)
         mat[linha][i] = valor;
     }
 }
-int finais[3] = {3,6,7};
+int finais[3] = {3,6,7}; //TODOS ESTADOS SERÃO FINAIS. TMJ CIENCIAS 
 
 int nfinais = 3;
 string saidas[3] = {"ID","NUMERO","NUMERO"};
@@ -114,7 +114,7 @@ int main()
     /*Simbolos Especiais Compostos*/
     setLinha(mat,1,':',':',4,nEstados);
     setLinha(mat,1,'(','(',5,nEstados);
-    setLinha(mat,1,'*','*',6),nEstados);
+    setLinha(mat,1,'*','*',6,nEstados);
 
     /*Simbolos Especiais Compostos*/
     setLinha(mat,4,'=','=',7,nEstados);
