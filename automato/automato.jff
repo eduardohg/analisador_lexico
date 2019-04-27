@@ -55,8 +55,13 @@
 		</state>
 		<!--The list of transitions.-->
 		<transition>
-			<from>0</from>
-			<to>8</to>
+			<from>5</from>
+			<to>6</to>
+			<read>.</read>
+		</transition>
+		<transition>
+			<from>4</from>
+			<to>1</to>
 			<read>*</read>
 		</transition>
 		<transition>
@@ -70,6 +75,11 @@
 			<read>:</read>
 		</transition>
 		<transition>
+			<from>8</from>
+			<to>1</to>
+			<read>)</read>
+		</transition>
+		<transition>
 			<from>0</from>
 			<to>2</to>
 			<read>a-z</read>
@@ -77,7 +87,7 @@
 		<transition>
 			<from>0</from>
 			<to>5</to>
-			<read>0-9</read>
+			<read>0-9 + -</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -85,9 +95,9 @@
 			<read>(</read>
 		</transition>
 		<transition>
-			<from>5</from>
-			<to>6</to>
-			<read>.</read>
+			<from>3</from>
+			<to>1</to>
+			<read>=</read>
 		</transition>
 		<transition>
 			<from>0</from>
@@ -95,14 +105,9 @@
 			<read>. ) , ; = &lt; &gt; + - [ ]</read>
 		</transition>
 		<transition>
-			<from>3</from>
-			<to>1</to>
-			<read>=</read>
-		</transition>
-		<transition>
-			<from>8</from>
-			<to>1</to>
-			<read>)</read>
+			<from>0</from>
+			<to>8</to>
+			<read>*</read>
 		</transition>
 		<transition>
 			<from>6</from>
@@ -110,9 +115,9 @@
 			<read>0-9</read>
 		</transition>
 		<transition>
-			<from>4</from>
-			<to>1</to>
-			<read>*</read>
+			<from>5</from>
+			<to>5</to>
+			<read>0-9</read>
 		</transition>
 	</automaton>
 </structure>
