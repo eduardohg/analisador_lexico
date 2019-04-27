@@ -11,6 +11,7 @@
 			<x>916.0</x>
 			<y>218.0</y>
 			<label>simbolos especiais compostos</label>
+			<final/>
 		</state>
 		<state id="2" name="q2">
 			<x>541.0</x>
@@ -31,14 +32,14 @@
 			<final/>
 		</state>
 		<state id="5" name="q7">
-			<x>546.0</x>
-			<y>360.0</y>
+			<x>843.0</x>
+			<y>409.0</y>
 			<label>numero</label>
 			<final/>
 		</state>
 		<state id="6" name="q8">
-			<x>674.0</x>
-			<y>389.0</y>
+			<x>936.0</x>
+			<y>333.0</y>
 			<label>numero</label>
 			<final/>
 		</state>
@@ -46,6 +47,7 @@
 			<x>681.0</x>
 			<y>56.0</y>
 			<label>simbolos especiais</label>
+			<final/>
 		</state>
 		<state id="8" name="q5">
 			<x>674.0</x>
@@ -53,11 +55,29 @@
 			<label>simbolos especiais</label>
 			<final/>
 		</state>
+		<state id="9" name="q9">
+			<x>670.0</x>
+			<y>349.0</y>
+			<label>simbolos especiais</label>
+			<final/>
+		</state>
 		<!--The list of transitions.-->
+		<transition>
+			<from>2</from>
+			<to>2</to>
+			<read>0-9, a-z, _ </read>
+		</transition>
 		<transition>
 			<from>5</from>
 			<to>6</to>
 			<read>.</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>9</to>
+			<controlx>490</controlx>
+			<controly>323</controly>
+			<read>+ -</read>
 		</transition>
 		<transition>
 			<from>4</from>
@@ -65,14 +85,16 @@
 			<read>*</read>
 		</transition>
 		<transition>
-			<from>2</from>
-			<to>2</to>
-			<read>0-9, a-z, _ </read>
+			<from>0</from>
+			<to>5</to>
+			<controlx>491</controlx>
+			<controly>445</controly>
+			<read>0-9</read>
 		</transition>
 		<transition>
 			<from>0</from>
-			<to>3</to>
-			<read>:</read>
+			<to>4</to>
+			<read>(</read>
 		</transition>
 		<transition>
 			<from>8</from>
@@ -81,33 +103,28 @@
 		</transition>
 		<transition>
 			<from>0</from>
+			<to>3</to>
+			<read>:</read>
+		</transition>
+		<transition>
+			<from>0</from>
 			<to>2</to>
 			<read>a-z</read>
 		</transition>
 		<transition>
-			<from>0</from>
+			<from>9</from>
 			<to>5</to>
-			<read>0-9 + -</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>4</to>
-			<read>(</read>
-		</transition>
-		<transition>
-			<from>3</from>
-			<to>1</to>
-			<read>=</read>
-		</transition>
-		<transition>
-			<from>0</from>
-			<to>7</to>
-			<read>. ) , ; = &lt; &gt; + - [ ]</read>
+			<read>0-9</read>
 		</transition>
 		<transition>
 			<from>0</from>
 			<to>8</to>
 			<read>*</read>
+		</transition>
+		<transition>
+			<from>3</from>
+			<to>1</to>
+			<read>=</read>
 		</transition>
 		<transition>
 			<from>6</from>
@@ -118,6 +135,11 @@
 			<from>5</from>
 			<to>5</to>
 			<read>0-9</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>7</to>
+			<read>. ) , ; = &lt; &gt; [ ]</read>
 		</transition>
 	</automaton>
 </structure>
