@@ -1,1 +1,2 @@
-program Hello 090 9.3
+$ program Hello 090 9.3 (* $ *0
+%

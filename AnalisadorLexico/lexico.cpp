@@ -27,10 +27,10 @@ void setLinha(int **mat, int linha,int inicio,int fim,int valor,int nEstados)
         mat[linha][i] = valor;
     }
 }
-int finais[3] = {3,6,7}; //TODOS ESTADOS SERÃO FINAIS. TMJ CIENCIAS 
-
-int nfinais = 3;
-string saidas[3] = {"ID","NUMERO","NUMERO"};
+int finais[9] = {2,3,4,5,6,7,8,9,10}; //TODOS ESTADOS SERÃO FINAIS. TMJ CIENCIAS
+int lines;
+int nfinais = 9;
+string saidas[9] = {"SIMBOLO ESPECIAL","ID","SIMBOLO ESPECIAL","SIMBOLO ESPECIAL","SIMBOLO ESPECIAL","SIMBOLO ESPECIAL COMPOSTO","NUMERO","NUMERO","SIMBOLO ESPECIAL"};
 
 int eFinal(int valor)
 {
@@ -54,7 +54,7 @@ void printPalavra(int inicio, int fim, string palavra,int estado)
 		cout<<saidas[k]<<" ";
 		for(i=inicio;i<fim+1;i++)cout<<palavra[i];
 	}
-	else cout<<saidas[k];
+	else cout<<saidas[k]<<"--> ";
 
 
 
@@ -66,11 +66,12 @@ void printLastPalavra(int inicio, int fim ,string palavra){
 	for(int i = inicio; i<fim ; i++){
 		cout << palavra[i];
 	}
-	cout << endl;
+	//cout << endl;
 
 }
 int main()
 {
+    lines =0;
     int nEstados = 22;
     int **mat;
     int i,j;
@@ -127,6 +128,7 @@ int main()
     string palavra;
     while(!feof(stdin))
     {
+        lines++;
         getline(cin,palavra);
         i=-1;
         j=0;
@@ -153,7 +155,7 @@ int main()
 						}
 			            printLastPalavra(k,i,palavra);
 
-					 	cout<<"ERRO2";
+					 	cout<<"ERRO na linha "<< lines<< ". Token: "<<palavra[i];
 					}
                 	while(i-k>0)i--;
                     k=i+1;
@@ -190,7 +192,7 @@ int main()
                     posLastFinal = i+1;
                     printLastPalavra(k,i,palavra);
 
-                    cout << "ERRO1";
+                    cout << "ERRO na linha "<< lines<< ". Token: "<<palavra[i];
 					k=i+1;
                 }
                 else
