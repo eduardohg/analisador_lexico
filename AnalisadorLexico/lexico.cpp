@@ -8,6 +8,8 @@ using std::string;
 using std::getline;
 #include <stdlib.h>
 #include<stdio.h>
+#include <ctype.h>
+
 
 
 
@@ -27,6 +29,8 @@ void setLinha(int **mat, int linha,int inicio,int fim,int valor,int nEstados)
         mat[linha][i] = valor;
     }
 }
+
+string palavraReservada[47] = {"and","array","begin","case","const","constructor","destructor","div","do","downto","else","end","file","for","function","goto","if","inherited","implementation","in","inline","interface","label","mod","nil","not","object","of","or","packed","procedure","program","record","repeat","set","shl","shr","string","then","to","type","unit","until","uses","var","while","with"};
 int finais[9] = {2,3,4,5,6,7,8,9,10}; //TODOS ESTADOS SERÃO FINAIS. TMJ CIENCIAS
 int lines;
 int nfinais = 9;
@@ -61,13 +65,38 @@ void printPalavra(int inicio, int fim, string palavra,int estado)
 
 }
 
-void printLastPalavra(int inicio, int fim ,string palavra){
-
-	for(int i = inicio; i<fim ; i++){
-		cout << palavra[i];
+int verificaPalavraReservada(string palavra){
+	int i;
+	for(i=0;i<palavra.size();i++){
+		palavra[i] = tolower(palavra[i]);
 	}
-	//cout << endl;
+	//cout <<"verifica " <<palavra<<endl;
+	for(i=0;i<47;i++){
+		if(palavra == palavraReservada[i]){
+			return 1;
+		}
+	}
+	return 0;
+	
+ 
+}
 
+int printLastPalavra(int inicio, int fim ,string palavra,bool op){
+	//Salva palavra para verificação de palavra reservada
+	string novaPalavra = "";
+	
+	for(int i = inicio; i<fim ; i++){
+		novaPalavra = novaPalavra + palavra[i];
+	}
+	if(	verificaPalavraReservada(novaPalavra)==1){
+		if(op)
+			cout << "Palavra Reservada --> " << novaPalavra;
+		return 1;
+	}else{
+		if(op)
+		cout << novaPalavra;
+		return 0;
+	}
 }
 int main()
 {
@@ -153,7 +182,7 @@ int main()
 						{
 							pulo=1;
 						}
-			            printLastPalavra(k,i,palavra);
+			            printLastPalavra(k,i,palavra,true);
 
 					 	cout<<"ERRO na linha "<< lines<< ". Token: "<<palavra[i];
 					}
@@ -168,9 +197,13 @@ int main()
                 {
                     if(pulo==1)cout<<endl;
                     else pulo=1;
-                    printPalavra(k,posLastFinal,palavra,lastFinal);
-                    printLastPalavra(k,i,palavra);
+                      if(printLastPalavra(k,i,palavra,false)==1){
+                    	printLastPalavra(k,i,palavra,true);
 
+                    }else{
+	                    printPalavra(k,posLastFinal,palavra,lastFinal);
+	                    printLastPalavra(k,i,palavra,true);
+	                }
                     stateAtual = 1;
 
                     k = posLastFinal+1;
@@ -190,7 +223,7 @@ int main()
                     stateAtual = 1;
                     lastFinal = 0;
                     posLastFinal = i+1;
-                    printLastPalavra(k,i,palavra);
+                    printLastPalavra(k,i,palavra,true);
 
                     cout << "ERRO na linha "<< lines<< ". Token: "<<palavra[i];
 					k=i+1;
@@ -199,8 +232,13 @@ int main()
                 {
                     if(pulo==1)cout<<endl;
                     else pulo=1;
-                    printPalavra(k,posLastFinal,palavra,lastFinal);
-                    printLastPalavra(k,i,palavra);
+                    if(printLastPalavra(k,i,palavra,false)==1){
+                    	printLastPalavra(k,i,palavra,true);
+
+                    }else{
+	                    printPalavra(k,posLastFinal,palavra,lastFinal);
+	                    printLastPalavra(k,i,palavra,true);
+	                }
                     stateAtual = 1;
                     i=posLastFinal;
                     k = posLastFinal+1;
@@ -211,5 +249,6 @@ int main()
         }while(palavra[i]!='\0');
 
     }
+    cout << endl;
     return 0;
 }
