@@ -2,6 +2,7 @@
 using std::cout;
 using std::cin;
 using std::endl;
+using std::to_string;
 
 #include <string>
 using std::string;
@@ -9,6 +10,7 @@ using std::getline;
 #include <stdlib.h>
 #include<stdio.h>
 #include <ctype.h>
+#include "hash.h"
 
 
 
@@ -29,7 +31,7 @@ void setLinha(int **mat, int linha,int inicio,int fim,int valor,int nEstados)
         mat[linha][i] = valor;
     }
 }
-
+HashMap<string, string> *h = new HashMap<string, string>; 
 string palavraReservada[47] = {"and","array","begin","case","const","constructor","destructor","div","do","downto","else","end","file","for","function","goto","if","inherited","implementation","in","inline","interface","label","mod","nil","not","object","of","or","packed","procedure","program","record","repeat","set","shl","shr","string","then","to","type","unit","until","uses","var","while","with"};
 int finais[9] = {2,3,4,5,6,7,8,9,10}; //TODOS ESTADOS SERÃO FINAIS. TMJ CIENCIAS
 int lines;
@@ -53,17 +55,31 @@ void printPalavra(int inicio, int fim, string palavra,int estado)
 	{
 		if(estado ==finais[i]) k = i;
 	}
-	if(estado == 19 || estado ==22)
-	{
-		cout<<saidas[k]<<" ";
-		for(i=inicio;i<fim+1;i++)cout<<palavra[i];
-	}
-	else cout<<saidas[k]<<"--> ";
-
+    if(estado == 19 || estado ==22)
+    {
+        cout<<saidas[k]<<" ";
+        for(i=inicio;i<fim+1;i++)cout<<palavra[i];
+    }
+    else cout<<saidas[k]<<"--> ";
 
 
 
 }
+int getFinal(int inicio, int fim, string palavra,int estado)
+{   string printar;
+    int i;
+    int k=-1;
+    for(i=0;i<nfinais;i++)
+    {
+        if(estado ==finais[i]) k = i;
+    }
+    
+    return k;
+
+
+
+}
+
 
 int verificaPalavraReservada(string palavra){
 	int i;
@@ -81,20 +97,33 @@ int verificaPalavraReservada(string palavra){
  
 }
 
-int printLastPalavra(int inicio, int fim ,string palavra,bool op){
+int printLastPalavra(int inicio, int fim ,string palavra,bool op,int id){
 	//Salva palavra para verificação de palavra reservada
 	string novaPalavra = "";
+	string palavraLower= "";
+
+
 	
-	for(int i = inicio; i<fim ; i++){
+	for(int i = inicio; i<fim ; i++){ 
 		novaPalavra = novaPalavra + palavra[i];
+        palavra[i] = tolower(palavra[i]);
+        palavraLower = palavraLower + palavra[i];
 	}
 	if(	verificaPalavraReservada(novaPalavra)==1){
-		if(op)
-			cout << "Palavra Reservada --> " << novaPalavra;
+		if(op){
+			h->insertNode(novaPalavra,palavraLower); 
+
+			cout << "Palavra Reservada --> " << novaPalavra << " Posicao hash --> " << h->getPos(novaPalavra); 
+ 
+		}
 		return 1;
 	}else{
-		if(op)
-		cout << novaPalavra;
+		if(op){
+            if(id != -1){
+                h->insertNode(novaPalavra,to_string(id));
+                cout <<novaPalavra << " Posicao hash --> " << h->getPos(novaPalavra);
+            }
+		}
 		return 0;
 	}
 }
@@ -155,6 +184,7 @@ int main()
     setColuna(mat,' ',-1,nEstados);
     setColuna(mat,0,-1,nEstados);
     string palavra;
+    string auxPalavra;
     while(!feof(stdin))
     {
         lines++;
@@ -182,7 +212,7 @@ int main()
 						{
 							pulo=1;
 						}
-			            printLastPalavra(k,i,palavra,true);
+			            //printLastPalavra(k,i,palavra,true);
 
 					 	cout<<"ERRO na linha "<< lines<< ". Token: "<<palavra[i];
 					}
@@ -197,12 +227,13 @@ int main()
                 {
                     if(pulo==1)cout<<endl;
                     else pulo=1;
-                      if(printLastPalavra(k,i,palavra,false)==1){
-                    	printLastPalavra(k,i,palavra,true);
+                      if(printLastPalavra(k,i,palavra,false,-1)==1){
+                    	printLastPalavra(k,i,palavra,true,-1);
 
                     }else{
 	                    printPalavra(k,posLastFinal,palavra,lastFinal);
-	                    printLastPalavra(k,i,palavra,true);
+
+	                    printLastPalavra(k,i,palavra,true,getFinal(k,posLastFinal,palavra,lastFinal));
 	                }
                     stateAtual = 1;
 
@@ -223,7 +254,7 @@ int main()
                     stateAtual = 1;
                     lastFinal = 0;
                     posLastFinal = i+1;
-                    printLastPalavra(k,i,palavra,true);
+                    //printLastPalavra(k,i,palavra,true);
 
                     cout << "ERRO na linha "<< lines<< ". Token: "<<palavra[i];
 					k=i+1;
@@ -232,12 +263,14 @@ int main()
                 {
                     if(pulo==1)cout<<endl;
                     else pulo=1;
-                    if(printLastPalavra(k,i,palavra,false)==1){
-                    	printLastPalavra(k,i,palavra,true);
+                    if(printLastPalavra(k,i,palavra,false,1)==1){
+                    	printLastPalavra(k,i,palavra,true,-1);
 
                     }else{
-	                    printPalavra(k,posLastFinal,palavra,lastFinal);
-	                    printLastPalavra(k,i,palavra,true);
+                        //auxPalavra = printPalavra2(k,posLastFinal,palavra,lastFinal);
+                        printPalavra(k,posLastFinal,palavra,lastFinal);
+                        printLastPalavra(k,i,palavra,true,getFinal(k,posLastFinal,palavra,lastFinal));
+
 	                }
                     stateAtual = 1;
                     i=posLastFinal;
